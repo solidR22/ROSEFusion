@@ -15,11 +15,23 @@ namespace rosefusion {
 
         ~Pipeline() = default;
 
-
+        /**
+         * Invoke this for every frame you want to fuse into the global volume
+         * @param depth_map The depth map for the current frame. 
+         * ! Must consist of float values representing the depth in mm
+         * @param color_map The RGB color map. Must be a matrix (datatype CV_8UC3)
+         * @return Whether the frame has been fused successfully. Will only be false if the ICP failed.
+         */
         bool process_frame(const cv::Mat_<float>& depth_map, const cv::Mat_<cv::Vec3b>& color_map, cv::Mat& shaded_img);
-
+        /**
+         * Retrieve all camera poses computed so far
+         * @return A vector for 4x4 camera poses, consisting of rotation and translation
+         */
         void get_poses() const;
-
+        /**
+         * Extract a point cloud
+         * @return A PointCloud representation (see description of PointCloud for more information on the data layout)
+         */
         PointCloud extract_pointcloud() const;
 
 

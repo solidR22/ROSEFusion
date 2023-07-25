@@ -10,25 +10,40 @@ namespace rosefusion {
     Pipeline::Pipeline(const CameraParameters _camera_config,
                        const DataConfiguration _data_config,
                        const ControllerConfiguration _controller_config) :
+            //  生成参数对象  
             camera_parameters(_camera_config), data_config(_data_config),
             controller_config(_controller_config),
+            // 设置volume
             volume(data_config.volume_size, data_config.voxel_scale),
             frame_data(_camera_config.image_height, _camera_config.image_width),
             particle_leve{10240, 3072, 1024}, PST(particle_leve, _controller_config.PST_path),
             search_data(particle_leve),
+            // 初始化数据: 清空位姿,轨迹等
             current_pose{}, poses{}, frame_id{0}, last_model_frame{}, iter_tsdf{_controller_config.init_fitness} {
+        // The pose starts in the middle of the cube, offset along z by the initial depth
+        // 第一帧的相机位姿设置在 Volume 的中心, 然后在z轴上拉远一点
         current_pose.setIdentity();
         current_pose(0, 3) = data_config.init_pos.x;
         current_pose(1, 3) = data_config.init_pos.y;
         current_pose(2, 3) = data_config.init_pos.z;
     }
-
+    // 每一帧的数据处理都要调用这个函数
+    // HERE
     bool Pipeline::process_frame(const cv::Mat_<float> &depth_map, const cv::Mat_<cv::Vec3b> &color_map,
                                  cv::Mat &shaded_img) {
+        // STEP 1: Surface measurement
+        // 主要工作：
+        // 1、对输入的深度图像计算金字塔
+        // 2、对金字塔的每一层图像进行双边滤波
+        // 3、对金字塔的每一层深度图像计算顶点图
+        // 4、对金字塔的每一层顶点图计算法向图
 
-
-        internal::surface_measurement(color_map, depth_map, frame_data, camera_parameters,
-                                      data_config.depth_cutoff_distance);
+        internal::surface_measurement(
+            color_map, 
+            depth_map, 
+            frame_data, 
+            camera_parameters,
+            data_config.depth_cutoff_distance);
         bool tracking_success{true};
         if (frame_id > 0) {
             tracking_success = internal::pose_estimation(
@@ -46,22 +61,32 @@ namespace rosefusion {
             );
 
         }
+        // 如果 icp 过程不成功, 那么就说明当前失败了
         if (!tracking_success)
+            // icp失败之后本次处理退出,但是上一帧推理的得到的平面将会一直保持, 每次新来一帧都会重新icp后一直都在尝试重新icp, 尝试重定位回去
             return false;
-
+        // 记录当前帧的位姿
         poses.push_back(current_pose);
+        // STEP 3: Surface reconstruction
+        // 进行表面重建的工作, 其实是是将当前帧的观测信息融合到Global Volume
         internal::cuda::surface_reconstruction(frame_data.depth_map, frame_data.color_map,
-                                               volume, camera_parameters, data_config.truncation_distance,
-                                               current_pose.inverse());
+                                               volume, camera_parameters, 
+                                               data_config.truncation_distance,   // 截断距离u
+                                               current_pose.inverse());           // 相机外参 -- 其实这里可以加速的, 直接对Eigen::Matrix4f求逆有点耗时间
         if (controller_config.render_surface) {
-            internal::cuda::surface_prediction(volume,
+        // Step 4: Surface prediction
+        // 在当前帧的位姿上得到对表面的推理结果
+        // 从下到上依次遍历图像金字塔
+        // 对每层图像的数据都进行表面的推理
+            internal::cuda::surface_prediction(volume,  // Global Volume
                                                frame_data.shading_buffer,
-                                               camera_parameters, data_config.truncation_distance,
+                                               camera_parameters, 
+                                               data_config.truncation_distance,   // 截断距离
                                                data_config.init_pos,
                                                shaded_img,
-                                               current_pose);
+                                               current_pose);                     // 当前时刻的相机位姿(注意没有取逆)
         }
-
+        // 帧id++
         ++frame_id;
         return true;
     }

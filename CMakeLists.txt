@@ -22,7 +22,7 @@ find_package(CUDA 11.0 REQUIRED)
 IF (CUDA_FOUND)
     include_directories("${CUDA_INCLUDE_DIRS}")
     #  Specify the arch of your CUDA hardware here
-    SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3;-std=c++14 -gencode arch=compute_86,code=sm_86)
+    SET(CUDA_NVCC_FLAGS ${CUDA_NVCC_FLAGS};-O3;-std=c++14 -gencode arch=compute_75,code=sm_75)
 ENDIF ()
 
 ## OpenCV
@@ -35,7 +35,7 @@ endif (OpenCV_INCLUDE_DIRS)
 
 ## Eigen3
 
-find_package(Eigen3 3.4 REQUIRED)
+find_package(Eigen3 REQUIRED)
 if (EIGEN3_INCLUDE_DIR)
     include_directories("${EIGEN3_INCLUDE_DIR}")
 endif (EIGEN3_INCLUDE_DIR)

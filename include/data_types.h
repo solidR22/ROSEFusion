@@ -50,7 +50,24 @@ namespace rosefusion {
 
     };
 
-
+    /**
+     *
+     * \brief Representation of a cloud of three-dimensional points (vertices)
+     *
+     * This data structure contains
+     * (1) the world coordinates of the vertices,
+     * (2) the corresponding normals and
+     * (3) the corresponding RGB color value
+     *
+     * - vertices: A 1 x buffer_size opencv matrix with CV_32FC3 values, representing the coordinates
+     * - normals: A 1 x buffer_size opencv matrix with CV_32FC3 values, representing the normal direction
+     * - color: A 1 x buffer_size opencv matrix with CV_8UC3 values, representing the RGB color
+     *
+     * Same indices represent the same point
+     *
+     * The total number of valid points in those buffers is stored in num_points
+     *
+     */
     struct PointCloud {
         cv::Mat vertices;
         cv::Mat normals;
@@ -139,12 +156,15 @@ namespace rosefusion {
        
     };
 
-
+    // 这个名字空间中定义了一些在KinectFusion中使用的关于模型的数据类型
     namespace internal {
-  
-
+        /*
+         * Contains the internal data representation of one single frame as read by the depth camera
+         * Consists of depth, smoothed depth and color pyramids as well as vertex and normal pyramids
+         */
+        // - 保存了每一帧的输入数据的特性
         struct FrameData {
-            GpuMat depth_map;
+            GpuMat depth_map;            
             GpuMat color_map;
             GpuMat vertex_map;
             GpuMat normal_map;
@@ -280,7 +300,17 @@ namespace rosefusion {
 
         };
 
- 
+        
+        /*
+         *
+         * \brief Contains the internal pointcloud representation
+         *
+         * This is only used for exporting the data kept in the internal volumes
+         *
+         * It holds GPU containers for vertices, normals and vertex colors
+         * It also contains host containers for this data and defines the total number of points
+         *
+         */
         struct CloudData {
             GpuMat vertices;
             GpuMat normals;

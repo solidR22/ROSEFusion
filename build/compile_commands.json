@@ -1,0 +1,42 @@
+[
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/usr/local/include/eigen3 -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include -isystem /usr/local/include/opencv4   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/seq_gen.dir/src/seq_gen.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/seq_gen.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/seq_gen.cpp"
+},
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/usr/local/include/opencv4 -I/usr/local/include/eigen3 -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/ROSEFusion_lib.dir/src/DataReader.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/DataReader.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/DataReader.cpp"
+},
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/usr/local/include/opencv4 -I/usr/local/include/eigen3 -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/ROSEFusion_lib.dir/src/main.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/main.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/main.cpp"
+},
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/usr/local/include/opencv4 -I/usr/local/include/eigen3 -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/ROSEFusion_lib.dir/src/pose_estimation.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/pose_estimation.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/pose_estimation.cpp"
+},
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/usr/local/include/opencv4 -I/usr/local/include/eigen3 -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/ROSEFusion_lib.dir/src/rosefusion.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/rosefusion.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/rosefusion.cpp"
+},
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/usr/local/include/opencv4 -I/usr/local/include/eigen3 -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/ROSEFusion_lib.dir/src/seq_gen.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/seq_gen.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/seq_gen.cpp"
+},
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/usr/local/include/opencv4 -I/usr/local/include/eigen3 -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/ROSEFusion_lib.dir/src/surface_measurement.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/surface_measurement.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/surface_measurement.cpp"
+},
+{
+  "directory": "/home/silab/SLAM/RoseFusion_Comment/build",
+  "command": "/usr/bin/g++   -I/home/silab/SLAM/RoseFusion_Comment/include -I/home/silab/SLAM/RoseFusion_Comment/src/cuda/include -isystem /usr/local/include/opencv4 -isystem /usr/local/include/eigen3   -Wall -Wextra -Weffc++  -O0 -Wall -g2 -ggdb   -std=gnu++14 -o CMakeFiles/ROSEFusion.dir/src/main.cpp.o -c /home/silab/SLAM/RoseFusion_Comment/src/main.cpp",
+  "file": "/home/silab/SLAM/RoseFusion_Comment/src/main.cpp"
+}
+]

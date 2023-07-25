@@ -1,4 +1,7 @@
 #include "include/common.h"
+// Extracts a point cloud from the internal volume
+// This is CUDA code; compile with nvcc
+// Author: Christian Diller, git@christian-diller.de
 
 namespace rosefusion {
     namespace internal {

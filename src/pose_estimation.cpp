@@ -1,20 +1,23 @@
 #include <rosefusion.h>
-
+// This is the CPU part of the ICP implementation
+// Author: Christian Diller, git@christian-diller.de
 using Matf31da = Eigen::Matrix<double, 3, 1, Eigen::DontAlign>;
 using Matf61da = Eigen::Matrix<double, 6, 1, Eigen::DontAlign>;
+// 后缀 rm = Row Major
 using Matrix3frm = Eigen::Matrix<double, 3, 3, Eigen::RowMajor>;
 
 
 namespace rosefusion {
     namespace internal {
 
-        namespace cuda {
+        namespace cuda {  // Forward declare CUDA functions
             void estimate_step(const Eigen::Matrix3f &rotation_current, const Matf31da &translation_current,
                                const cv::cuda::GpuMat &vertex_map_current, const cv::cuda::GpuMat &normal_map_current,
                                const Eigen::Matrix3f &rotation_previous_inv, const Matf31da &translation_previous,
                                const CameraParameters &cam_params,
                                const cv::cuda::GpuMat &vertex_map_previous, const cv::cuda::GpuMat &normal_map_previous,
-                               float distance_threshold, float angle_threshold,
+                               float distance_threshold,     // ICP 过程中视为外点的距离阈值
+                               float angle_threshold,        // ICP 过程中视为外点的角度阈值
                                Eigen::Matrix<double, 6, 6, Eigen::RowMajor> &A, Eigen::Matrix<double, 6, 1> &b);
 
             bool
