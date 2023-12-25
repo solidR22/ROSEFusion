@@ -144,22 +144,22 @@ namespace rosefusion {
                 // 执行一次粒子估计
                 success = cuda::particle_evaluation(
                         volume,                                                         // 体素网格
-                        quaternions,                                            // 预采样粒子集合
+                        quaternions,                                                    // 预采样粒子集合
                         search_data,                                                    // 搜索数据，存储粒子的tsdf累积误差和搜索顶点数
-                        current_global_rotation,                            // 旋转矩阵3*3
-                        current_global_translation,                         // 平移3*1
-                        frame_data.vertex_map,                              // 顶点图
-                        frame_data.normal_map,                              // 法向图
-                        previous_global_rotation_inverse,                   // 上一帧的旋转
-                        previous_global_translation,                        // 上一帧的平移
+                        current_global_rotation,                                        // 旋转矩阵3*3
+                        current_global_translation,                                     // 平移3*1
+                        frame_data.vertex_map,                                          // 顶点图
+                        frame_data.normal_map,                                          // 法向图
+                        previous_global_rotation_inverse,                               // 上一帧的旋转
+                        previous_global_translation,                                    // 上一帧的平移
                         cam_params,                                                     // 相机参数，投影到图像平面用
-                        particle_index[count_particle],                     // 粒子索引
-                        particle_level[particle_index[count_particle] / 20],  // 迭代时10240，3072，1024循环，表示粒子数量
+                        particle_index[count_particle],                                 // 粒子索引
+                        particle_level[particle_index[count_particle] / 20],            // 迭代时10240，3072，1024循环，表示粒子数量
                         search_size,                                                    // PST的r，其实就是PST六个参数的缩放系数，通过优化这个缩放系数来逼近最优位姿
-                        level[count_particle],                              // 深度图下采样倍数：32,16,8循环
+                        level[count_particle],                                          // 深度图下采样倍数：32,16,8循环
                         level_index,                                                    // 下采样步长范围内的一个值，随机取增加泛化程度
-                        mean_transform,                                             // 位姿变换矩阵
-                        &min_tsdf                                                   // 归一化后的tsdf平均差值
+                        mean_transform,                                                 // 位姿变换矩阵
+                        &min_tsdf                                                       // 归一化后的tsdf平均差值
                 );
                 // 粒子估计失败，使用上次的最优位姿下的tsdf差
                 if (count == 0 && !success) {

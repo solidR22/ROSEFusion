@@ -21,21 +21,23 @@ int main(int argc,char* argv[]){
     printf("%s\n",data_file.c_str());
     printf("%s\n",controller_file.c_str());
 
-    const rosefusion::CameraParameters camera_config(camera_file);
-    const rosefusion::DataConfiguration data_config(data_file);
-    const rosefusion::ControllerConfiguration controller_config(controller_file);
+    const rosefusion::CameraParameters camera_config(camera_file); // 给相机赋值参数
+    const rosefusion::DataConfiguration data_config(data_file);    // 定义TSDF参数
+    const rosefusion::ControllerConfiguration controller_config(controller_file);  // 运行时的参数
 
+    // 创建三个视图
     pangolin::View color_cam;
     pangolin::View shaded_cam; 
     pangolin::View depth_cam; 
 
+    // 创建glTexture容器用于读取图像
     pangolin::GlTexture imageTexture;
     pangolin::GlTexture shadTexture;
     pangolin::GlTexture depthTexture;
 
     if (controller_config.render_surface){
 
-        pangolin::CreateWindowAndBind("Main",2880,1440);
+        pangolin::CreateWindowAndBind("Main",1280,720);
 
         color_cam = pangolin::Display("color_cam")
             .SetAspect((float)camera_config.image_width/(float)camera_config.image_height);
@@ -44,6 +46,7 @@ int main(int argc,char* argv[]){
         depth_cam = pangolin::Display("depth_cam")
             .SetAspect((float)camera_config.image_width/(float)camera_config.image_height);
 
+        // 创建显示窗口
         pangolin::Display("window")
             .SetBounds(0.0, 1.0, 0.0, 1.0 )
             .SetLayout(pangolin::LayoutEqual)
@@ -59,7 +62,7 @@ int main(int argc,char* argv[]){
     }
     cv::Mat shaded_img(camera_config.image_height, camera_config.image_width,CV_8UC3);
 
-    rosefusion::Pipeline pipeline { camera_config, data_config, controller_config };
+    rosefusion::Pipeline pipeline { camera_config, data_config, controller_config }; // 初始化相机位姿和上面定义的参数
 
     clock_t time_stt=clock( );
     cv::Mat color_img;
@@ -76,7 +79,7 @@ int main(int argc,char* argv[]){
         printf("n:%d\n",n_imgs);
 
         d_reader.getNextFrame(color_img,depth_map);
-        bool success = pipeline.process_frame(depth_map, color_img,shaded_img);
+        bool success = pipeline.process_frame(depth_map, color_img, shaded_img);
 
         if (!success){
             std::cout << "Frame could not be processed" << std::endl;
@@ -112,12 +115,12 @@ int main(int argc,char* argv[]){
     std::cout <<"time per frame="<<1000*(clock()-time_stt)/(double)CLOCKS_PER_SEC/n_imgs<<"ms"<<std::endl;
 
     if (controller_config.save_trajectory){
-        pipeline.get_poses();
+        pipeline.get_poses(); // 保存位姿
     }
 
     if (controller_config.save_scene){
         auto points = pipeline.extract_pointcloud();
-        rosefusion::export_ply(data_config.result_path+data_config.seq_name+"_points.ply",points);
+        rosefusion::export_ply(data_config.result_path+data_config.seq_name+"_points.ply",points); // 保存三维点
     }
 
 

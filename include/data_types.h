@@ -122,9 +122,11 @@ namespace rosefusion {
 
         int pointcloud_buffer_size { 3 * 2000000 };
 
-        std::string result_path {"~/"};
-        std::string seq_file {"~/"};
-        std::string seq_name {"~/"};
+        std::string result_path {"~/"}; // 存储结果的位置
+        std::string seq_file {"~/"};    // 读取seq数据
+        std::string seq_name {"~/"};    // 没啥用
+        std::string data_path {"~/"};   // 目录
+        std::string association_file {"~/"};  
 
 
         DataConfiguration(const std::string &config_file){
@@ -133,24 +135,27 @@ namespace rosefusion {
             std::string temp_str;
             dataSetting["result_path"]>>result_path;
 
-            voxel_scale=dataSetting["voxel_size"];
-            truncation_distance=dataSetting["truncated_size"];
+            // 都是用来设置体素网格volume
+            voxel_scale=dataSetting["voxel_size"];               // 体素块的尺寸
+            truncation_distance=dataSetting["truncated_size"];   // 截断距离
             int voxel_x=dataSetting["voxel_x"];
             int voxel_y=dataSetting["voxel_y"];
             int voxel_z=dataSetting["voxel_z"];
-            volume_size=make_int3(voxel_x,voxel_y,voxel_z);
+            volume_size=make_int3(voxel_x,voxel_y,voxel_z);      //体素块的分辨率
 
             float init_x=dataSetting["init_x"];
             float init_y=dataSetting["init_y"];
             float init_z=dataSetting["init_z"];
 
-            float init_pos_x=volume_size.x / 2 * voxel_scale - init_x;
+            float init_pos_x=volume_size.x / 2 * voxel_scale - init_x; // 世界坐标系的原点坐标
             float init_pos_y=volume_size.y / 2 * voxel_scale - init_y;
             float init_pos_z=volume_size.z / 2 * voxel_scale - init_z;
             init_pos=make_float3(init_pos_x,init_pos_y,init_pos_z);
 
             dataSetting["seq_path"]>>seq_file;
             dataSetting["name"]>>seq_name;
+            dataSetting["data_path"]>>data_path;
+            dataSetting["association_file"]>>association_file;
             dataSetting.release();
         }
        
@@ -184,7 +189,7 @@ namespace rosefusion {
         };
 
 
-
+        // 体素：TSDF、权重、颜色、尺寸、体素大小
         struct VolumeData {
             GpuMat tsdf_volume; 
             GpuMat weight_volume; 
@@ -198,7 +203,7 @@ namespace rosefusion {
                     color_volume(cv::cuda::createContinuous(_volume_size.y * _volume_size.z, _volume_size.x, CV_8UC3)),
                     volume_size(_volume_size), voxel_scale(_voxel_scale)
             {
-                tsdf_volume.setTo(32767);
+                tsdf_volume.setTo(32767); // 初始化为32767，使用时/32767转为float，相当于存储的是1，但是此时权重为0，所以不影响计算
                 weight_volume.setTo(0);
                 color_volume.setTo(0);
             }

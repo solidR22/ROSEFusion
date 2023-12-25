@@ -13,7 +13,7 @@ using blockIdx = struct { int x; int y; int z; };
 
 #include <data_types.h>
 
-#define DIVSHORTMAX 0.0000305185f  // 1/32767
+#define DIVSHORTMAX 0.0000305185f  // 1/32767，由于TSDF值现在是按照 uint16_t 的格式来存储的,所以为了变换成为float型需要进行变换, 乘DIVSHORTMAX
 #define SHORTMAX 32767 
 
 

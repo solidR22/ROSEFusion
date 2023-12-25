@@ -15,18 +15,18 @@ class DataReader
     DataReader(std::string file, bool flipColors);
     virtual ~DataReader();
     int getFramesNum();
-    void getNextFrame(cv::Mat& Color_mat,cv::Mat& Depth_mat);
+    void getNextFrame(cv::Mat& Color_mat,cv::Mat& Depth_mat); // 每次取一帧
     bool hasMore();
 
     private:
-    std::vector<cv::Mat> v_color;
-    std::vector<cv::Mat> v_depth;
+    std::vector<cv::Mat> v_color; // 初始化时读取所有的数据
+    std::vector<cv::Mat> v_depth; // 初始化时读取所有的数据
 
     void readFile();
     FILE * fp;
-    int numFrames;
-    int height;
-    int width;
+    int numFrames;  // 输入
+    int height;     // 输入
+    int width;      // 输入
     int currentFrame;
 
 };

@@ -71,7 +71,7 @@ namespace rosefusion {
                     // step 2.3 计算 SDF, 参考论文公式6中括号的部分
                     // 这里的 camera_pos 已经是该体素中心点在当前世界坐标系下的坐标了, 论文中的公式的意思是计算相机光心到该点的距离, 就相当于这个坐标直接取欧式二范数
                     // 前面乘的负号是因为, 咱们定义 SDF 表示中平面前的部分为正, 平面后的部分为负
-                    // SDF 其实也就是表示了空间体素点的(预测值 - 观测值)
+                    // SDF 其实也就是表示了空间体素点的(预测值 - 观测值) 【深度图-体素值】
                     const float sdf = (-1.f) * ((1.f / lambda) * camera_pos.norm() - depth);
                     // step 2.4 计算 TSDF, 参考论文公式9
                     // 如果根据我们得到的 SDF 告诉我们, 这个距离我们能够观测到 (即相当于观测的距离是在 -u 之前的)
@@ -92,6 +92,8 @@ namespace rosefusion {
                     //          |                    |             |-x-x-x-x-x-x-x-x-x-x-
                     //          |      截断区         |  TSDF表示区  |    不可观测区      
                     //
+                    // 体素 - 深度 <= trun_dis
+                    // 深度 - 体素 >= -trun_dis
                     if (sdf >= -truncation_distance) {
                         // 说明当前的 SDF 表示获得的观测的深度值, 在我们构建的TSDF模型中, 是可观测的
                         // step 2.4.1 计算当前次观测得到的 TSDF 值
@@ -164,7 +166,7 @@ namespace rosefusion {
                     depth_image,                  // 原始大小的深度图像
                     color_image,                  // 原始大小的彩色图像
                     volume.tsdf_volume,           // TSDF Volume, GpuMat
-                    volume.weight_volume ,
+                    volume.weight_volume ,        // 权重
                     volume.color_volume,          // color Volume, GpuMat
                     volume.volume_size,           // Volume 的大小, int3
                     volume.voxel_scale,           // 尺度缩放, float

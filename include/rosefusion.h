@@ -42,12 +42,12 @@ namespace rosefusion {
         const std::vector<int> particle_leve;
 
         float iter_tsdf;
-        internal::VolumeData volume;
+        internal::VolumeData volume;        // 体素信息
         internal::QuaternionData PST; 
         internal::SearchData search_data;
-        internal::FrameData frame_data;
+        internal::FrameData frame_data;     // 当前帧的所有数据
         Eigen::Matrix4d current_pose;
-        std::vector<Eigen::Matrix4d> poses;
+        std::vector<Eigen::Matrix4d> poses; // 存储所有的位姿
         bool previous_frame_success=false;
         Matf61da initialize_search_size;
         size_t frame_id;
@@ -101,6 +101,7 @@ namespace rosefusion {
                                     cv::Mat& shaded_img,
                                     const Eigen::Matrix4d& pose);
 
+            // 从体素提取出三维点云
             PointCloud extract_points(const VolumeData& volume, const int buffer_size);
 
         }

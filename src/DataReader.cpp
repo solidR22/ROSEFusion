@@ -1,8 +1,6 @@
 #include "DataReader.h"
 #include <opencv2/opencv.hpp>
 
-
-
 DataReader::DataReader(std::string file,bool flipColors)
 {
     fp = fopen(file.c_str(),"rb");

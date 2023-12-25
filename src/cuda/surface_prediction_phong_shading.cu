@@ -411,11 +411,11 @@ namespace rosefusion {
             }
             // 执行当前帧的指定图层上的表面推理
             void surface_prediction(const VolumeData& volume,               // Global Volume
-                                    GpuMat& shading_buffer,
-                                    const CameraParameters& cam_parameters,
+                                    GpuMat& shading_buffer,                 // 用于GPU计算的中间量
+                                    const CameraParameters& cam_parameters, // 相机参数
                                     const float truncation_distance,        // 截断距离
-                                    const float3 init_pos,
-                                    cv::Mat& shading_img,
+                                    const float3 init_pos,                  // 相机原点
+                                    cv::Mat& shading_img,                   // 输出，用于显示
                                     const Eigen::Matrix4d& pose)            // 当前帧的相机位姿
             {
                 // step 0 数据准备: 清空顶点图\法向图\彩色图

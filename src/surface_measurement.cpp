@@ -30,18 +30,21 @@ namespace rosefusion {
              */
             void compute_normal_map(const GpuMat& vertex_map, GpuMat& normal_map);
         }
-        // 计算输入深度图的顶点\法向金字塔
+        // 计算输入深度图的顶点\法向量
         void surface_measurement(const cv::Mat_<cv::Vec3b>& color_frame,
                                       const cv::Mat_<float>& depth_frame,
                                       FrameData& frame_data,
                                       const CameraParameters& camera_params,
                                       const float depth_cutoff)
         {
-
+            // 上传原始的RGB图到GPU
             frame_data.color_map.upload(color_frame);
+            // 上传原始的深度图到GPU
             frame_data.depth_map.upload(depth_frame);
+            // 顶点图, 说白了就是根据深度图计算3D点
             cuda::compute_vertex_map(frame_data.depth_map, frame_data.vertex_map,
                                      depth_cutoff, camera_params);
+            // 法向图, 需要根据顶点图来计算法向量
             cuda::compute_normal_map(frame_data.vertex_map, frame_data.normal_map);
 
         }
