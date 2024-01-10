@@ -55,7 +55,7 @@ namespace rosefusion {
                     camera_parameters,          // 相机内参
                     controller_config,          // 控制参数
                     particle_leve,              // 粒子等级：[10240, 3072, 1024]
-                    &iter_tsdf,
+                    &iter_tsdf,                 // 文件参数 init_fitness
                     &previous_frame_success,    // 上一帧是否成功
                     initialize_search_size      // 初始6D位姿的搜索范围
             );
@@ -105,8 +105,12 @@ namespace rosefusion {
             Eigen::Matrix3d rotation_m = temp_pose.block(0, 0, 3, 3);
             Eigen::Vector3d translation = temp_pose.block(0, 3, 3, 1) / 1000;
             Eigen::Quaterniond q(rotation_m);
-            trajectory << iter_count << " " << translation.x() << " " << translation.y() << " " << translation.z() << \
-            " " << q.x() << " " << q.y() << " " << q.z() << " " << q.w() << std::endl;
+            if(!vTimestamps.empty())
+                trajectory << std::setprecision(18) << vTimestamps[iter_count] << " " << translation.x() << " " << translation.y() << " " << translation.z() << \
+                " " << q.x() << " " << q.y() << " " << q.z() << " " << q.w() << std::endl;
+            else
+                trajectory << iter_count << " " << translation.x() << " " << translation.y() << " " << translation.z() << \
+                " " << q.x() << " " << q.y() << " " << q.z() << " " << q.w() << std::endl;
             iter_count++;
         }
         trajectory.close();

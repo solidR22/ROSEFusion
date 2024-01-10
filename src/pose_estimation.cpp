@@ -71,7 +71,7 @@ namespace rosefusion {
                              const CameraParameters &cam_params,                    // 相机内参
                              const ControllerConfiguration &controller_config,      // 控制参数
                              const std::vector<int> particle_level,                 // 粒子等级：[10240, 3072, 1024]
-                             float *iter_tsdf,
+                             float *iter_tsdf,                                      // 文件参数 init_fitness
                              bool *previous_frame_success,                          // 上一帧是否成功
                              Matf61da &initialize_search_size                       // 初始的搜索范围
         ) {

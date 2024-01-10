@@ -94,11 +94,11 @@ int main(int argc,char* argv[]){
     // Retrieve paths to images
     std::vector<std::string> vstrImageFilenamesRGB;
     std::vector<std::string> vstrImageFilenamesD;
-    std::vector<double> vTimestamps;
+    // std::vector<double> vTimestamps;
     // associate文件的路径
     std::string strAssociationFilename = std::string(data_config.association_file);
     cout<<"associate文件路径"<<strAssociationFilename<<endl;
-    LoadImages(strAssociationFilename, vstrImageFilenamesRGB, vstrImageFilenamesD, vTimestamps);
+    LoadImages(strAssociationFilename, vstrImageFilenamesRGB, vstrImageFilenamesD, pipeline.vTimestamps);
     cout<<"Load done!"<<endl;
     // Check consistency in the number of images and depthmaps
     int nImages = vstrImageFilenamesRGB.size();
@@ -191,10 +191,10 @@ void LoadImages(const string &strAssociationFilename, vector<string> &vstrImageF
         {
             stringstream ss;
             ss << s;
-            string t;
+            double t;
             string sRGB, sD;
             ss >> t;
-            // vTimestamps.push_back(t);
+            vTimestamps.push_back(t);
             ss >> sRGB;
             vstrImageFilenamesRGB.push_back(sRGB);
             ss >> t;

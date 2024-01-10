@@ -34,7 +34,7 @@ namespace rosefusion {
          */
         PointCloud extract_pointcloud() const;
 
-
+        std::vector<double> vTimestamps;
     private:
         const CameraParameters camera_parameters;
         const DataConfiguration data_config;
