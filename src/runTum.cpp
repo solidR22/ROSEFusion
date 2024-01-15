@@ -124,6 +124,7 @@ int main(int argc,char* argv[]){
         color_img = cv::imread(data_config.data_path+"/"+vstrImageFilenamesRGB[ni],cv::IMREAD_COLOR); //,cv::IMREAD_UNCHANGED);
         depth_map = cv::imread(data_config.data_path+"/"+vstrImageFilenamesD[ni],cv::IMREAD_UNCHANGED); //,cv::IMREAD_UNCHANGED);
         // depth_map.convertTo(depth_map,CV_16UC1,1/16.0);
+        // ! 这里必须转为单位为毫米的数据，但是在保存位姿时会自动转为单位为米
         depth_map.convertTo(depth_map,CV_32FC1,1/5.0);
         if(color_img.empty())
         {
