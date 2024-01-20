@@ -8,8 +8,8 @@
 name: "fr2_desk"
 result_path: "./"
 seq_path: "../tum_dataset/tum_dataset/rgbd_dataset_freiburg2_xyz/result.seq"
-data_path: /home/silab/Datasets/SLAM/TUM/rgbd_dataset_freiburg2_desk
-association_file: /home/silab/Datasets/SLAM/TUM/rgbd_dataset_freiburg2_desk/associate.txt
+data_path: /home/solid/Datasets/SLAM/TUM/rgbd_dataset_freiburg2_desk
+association_file: /home/solid/Datasets/SLAM/TUM/rgbd_dataset_freiburg2_desk/associate.txt
 
 voxel_size: 10
 truncated_size: 30
