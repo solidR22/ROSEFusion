@@ -6,9 +6,9 @@
 
 
 name: "fr2_desk"
-result_path: "./"
+result_path: "/home/silab/SLAM/RoseFusion_Comment/result/"
 seq_path: "../tum_dataset/tum_dataset/rgbd_dataset_freiburg2_xyz/result.seq"
-data_path: /home/silab/Datasets/SLAM/TUM/rgbd_dataset_freiburg2_desk
+data_path: /home/silab/Datasets/SLAM/TUM/rgbd_dataset_freiburg2_desk/
 association_file: /home/silab/Datasets/SLAM/TUM/rgbd_dataset_freiburg2_desk/associate.txt
 
 voxel_size: 10
